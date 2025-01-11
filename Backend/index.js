@@ -2,7 +2,9 @@ import express from "express";
 import mongoose from "mongoose";
 import { PORT ,dburl } from "./config.js";
 import Dishroutes from "./Routes/Dishroutes.js"
+import Adminroutes from "./Routes/Adminroutes.js"
 import cors from "cors"
+import dotenv from 'dotenv';
 
 const app = express();
 app.use(express.json());
@@ -27,3 +29,4 @@ app.get('/',(req,res)=>{
 })
 
 app.use("/Dishes",Dishroutes);
+app.use("/Admin",Adminroutes)
