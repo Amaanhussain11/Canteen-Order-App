@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { CiSquarePlus } from "react-icons/ci";
+import { FaPlusSquare } from "react-icons/fa";
 import { GlobalContextdish } from "../Context/Contextvardish";
 import { GlobalContextname } from "../Context/Contextvarname";
 import { GlobalContextprice } from "../Context/Contextvarprice";
+import Swal from "sweetalert2";
 
 function DishCard({ category }) {
   // calling hooks
@@ -22,38 +24,62 @@ function DishCard({ category }) {
   }, [category]);
 
   // A function to handle adding a dish and name of the recipient
-  const handleadddish = (dishname, dishprice) => {
-    const name = prompt("Enter the name of recipient");
+  const handleadddish = async (dishname, dishprice) => {
+    // const name = prompt("Enter your name")
+    const { value: name } = await Swal.fire({
+      title: "Enter recipient's Name",
+      input: "text",
+      // inputLabel: "Your IP address",
+      inputValidator: (value) => {
+        if (!value) {
+          return "You need to write something!";
+        }
+      }
+    });
+    // console.log(name)
     setpricelist([...pricelist, dishprice]);
     setnamelist([...namelist, name]);
     setdishlistarr([...dishlistarr, dishname]);
   };
 
   return (
-    <div className="flex flex-col items-center p-6 bg-gray-50 rounded-lg shadow-lg">
-      <h3 className="text-2xl font-bold text-gray-800 mb-4">
-        Available Dishes
-      </h3>
-      <ul className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        {searchresult.map((res, index) => (
-          <li
-            key={index}
-            className="bg-white border rounded-lg shadow-md hover:shadow-lg transition-shadow p-6 flex flex-col items-center space-y-4"
-          >
-            <div className="text-center">
-              <h4 className="text-lg font-semibold text-gray-700">
-                {res.name}
-              </h4>
-              <p className="text-gray-500 text-sm">Price: ₹{res.price}</p>
-            </div>
-            <CiSquarePlus
-              fontSize={40}
-              className="text-blue-500 cursor-pointer hover:text-blue-600"
-              onClick={() => handleadddish(res.name, res.price)}
+    <div className="w-full mt-4 space-y-4 bg-[#FFF4E6]">
+      {searchresult.map((res, index) => (
+        <div
+          key={index}
+          className="w-full max-w-[375px] mx-auto bg-[#FAD7A0] rounded-[20px] p-4 flex flex-col shadow-md"
+        >
+          {/* Image Section */}
+          <div className="w-full h-[150px] flex items-center justify-center overflow-hidden bg-white rounded-[20px]">
+            <img
+              src={
+                res.imageLink ||
+                "https://media.istockphoto.com/id/1409919858/photo/delicious-indian-street-food-egg-rolls-is-ready-to-eat.jpg?s=612x612&w=0&k=20&c=7b-uTwR8qmESV_nP3Rsh4qqKCay4vsG_B7j0UhaMFPY="
+              } // Placeholder image if `imageLink` is missing
+              alt={res.name}
+              className="w-full h-full object-cover rounded-[20px]"
             />
-          </li>
-        ))}
-      </ul>
+          </div>
+
+          {/* Name, Price, and Add Button Section */}
+          <div className="flex justify-between items-center mt-3 px-4">
+            <div>
+              <h3 className="text-base font-bold text-gray-800">{res.name}</h3>
+              <p className="text-sm text-gray-600 mt-1">₹{res.price}</p>
+            </div>
+            <div>
+              <button
+                onClick={() => {
+                  handleadddish(res.name, res.price);
+                }}
+                className="flex items-center justify-center hover:opacity-80"
+              >
+                <FaPlusSquare fontSize={28} className="text-black" />
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

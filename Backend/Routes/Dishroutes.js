@@ -57,7 +57,7 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    if (!req.body.name || !req.body.price || !req.body.type) {
+    if (!req.body.name || !req.body.price || !req.body.type || !req.body.imageLink) {
       return res
         .status(400)
         .json({ error: "Please Fill all the required fields" });
@@ -66,7 +66,11 @@ router.post("/", async (req, res) => {
     }
 
     return res.status(200).send("Dish Added Sucessfully");
-  } catch {}
+  } catch {
+    (err)=>{
+      console.log(err)
+    }
+  }
 });
 
 

@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -6,6 +6,7 @@ const AdminPanel = () => {
   const [dishName, setDishName] = useState("");
   const [price, setPrice] = useState("");
   const [type, settype] = useState("Veg");
+  const [imageLink, setimageLink] = useState("");
   const [message, setMessage] = useState("");
 
   // checking if its admin or not
@@ -29,6 +30,7 @@ const AdminPanel = () => {
       name: dishName,
       price: Number(price),
       type: type,
+      imageLink: imageLink,
     };
 
     try {
@@ -101,6 +103,20 @@ const AdminPanel = () => {
               <option value="Veg">Veg</option>
               <option value="Non-Veg">Non-Veg</option>
             </select>
+          </div>
+          <div>
+            <label htmlFor="imageLink" className="block text-sm font-medium">
+              Image Link
+            </label>
+            <input
+              type="text"
+              id="imageLink"
+              value={imageLink}
+              onChange={(e) => setimageLink(e.target.value)}
+              className="mt-1 block w-full px-3 py-2 border rounded shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Enter the dish image link"
+              required
+            />
           </div>
           {/* Submit Button */}
           <button

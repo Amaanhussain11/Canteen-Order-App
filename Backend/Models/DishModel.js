@@ -13,7 +13,11 @@ const DishScheme = mongoose.Schema(
         type:{
             type:String,
             required:true
-        }
+        },
+        imageLink: {
+            type:String,
+            required:true, // Optional: Set to false if the image is not mandatory
+        },
     }
 )
 

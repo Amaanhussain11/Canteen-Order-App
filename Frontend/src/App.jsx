@@ -7,6 +7,7 @@ import Adminpanel from "./Components/Adminpanel";
 import AdminLogin from "./Components/AdminLogin";
 import Addnewdish from "./Components/Addnewdish";
 import UpdateDish from "./Components/Updatedish";
+import Stickyfooter from "./Components/Stickyfooter";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <>
             <SearchBar />
             <CategorySelection />
+            <Stickyfooter/>
           </>
         }
       />
