@@ -43,7 +43,7 @@ const SearchBar = () => {
     }
     try {
       const res = await axios.get(
-        `http://localhost:5555/Dishes/search?&name=${dishname}`
+        `https://canteen-order-app-4.onrender.com/Dishes/search?&name=${dishname}`
       );
       setsearchresult(res.data);
     } catch (err) {

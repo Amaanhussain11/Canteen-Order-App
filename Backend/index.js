@@ -12,7 +12,7 @@ const app = express();
 const httpServer = createServer(app); // Create HTTP server
 const io = new Server(httpServer, {
   cors: {
-    origin: "*", // Update with your client origin if needed
+    origin: allowedOrigins, // Update with your client origin if needed
     methods: ["GET", "POST"],
   },
 });
@@ -26,7 +26,7 @@ mongoose
   .then(() => {
     console.log("Connected to the database");
     httpServer.listen(PORT, () => {
-      console.log(`Server is working on http://localhost:${PORT}`);
+      // console.log(`Server is working on http://localhost:${PORT}`);
     });
   })
   .catch((err) => {

@@ -15,7 +15,7 @@ function DishCard({ category }) {
 
   // Fetching the data from backend
   useEffect(() => {
-    fetch(`http://localhost:5555/Dishes/category/${category}`)
+    fetch(`https://canteen-order-app-4.onrender.com/Dishes/category/${category}`)
       .then((res) => res.json())
       .then((data) => setsearchresult(data))
       .catch((err) => {

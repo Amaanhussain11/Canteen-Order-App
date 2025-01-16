@@ -11,7 +11,7 @@ const AdminLogin = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5555/Admin/login", {
+      const response = await fetch("https://canteen-order-app-4.onrender.com/Admin/login", {
         method: "POST",
         body: JSON.stringify({ adminEmail: username, password }),
         headers: { "Content-Type": "application/json" },

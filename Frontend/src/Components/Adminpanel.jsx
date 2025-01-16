@@ -23,7 +23,7 @@ const AdminPanel = () => {
   // Fetch dishes from the API
   const fetchDishes = async () => {
     try {
-      const response = await axios.get("http://localhost:5555/Dishes/category");
+      const response = await axios.get("https://canteen-order-app-4.onrender.com/Dishes/category");
       setDishes(response.data);
     } catch (error) {
       console.error("Error fetching dishes:", error);
@@ -34,7 +34,7 @@ const AdminPanel = () => {
   // Delete a dish by ID
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5555/Dishes/${id}`);
+      await axios.delete(`https://canteen-order-app-4.onrender.com/Dishes/${id}`);
       setMessage("Dish deleted successfully!");
       setDishes(dishes.filter((dish) => dish._id !== id)); // Remove deleted dish from the list
     } catch (error) {

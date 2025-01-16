@@ -35,7 +35,7 @@ const AdminPanel = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5555/Dishes",
+        "https://canteen-order-app-4.onrender.com/Dishes",
         newDish
         // console.log("hello")
       );

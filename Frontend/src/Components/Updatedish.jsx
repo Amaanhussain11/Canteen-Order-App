@@ -26,7 +26,7 @@ const UpdateDish = () => {
   useEffect(() => {
     const fetchDish = async () => {
       try {
-        const response = await axios.get(`http://localhost:5555/Dishes/${id}`);
+        const response = await axios.get(`https://canteen-order-app-4.onrender.com/Dishes/${id}`);
         const dish = response.data;
         setDishName(dish.name);
         setPrice(dish.price);
@@ -52,7 +52,7 @@ const UpdateDish = () => {
     };
 
     try {
-      await axios.put(`http://localhost:5555/Dishes/${id}`, updatedDish);
+      await axios.put(`https://canteen-order-app-4.onrender.com/Dishes/${id}`, updatedDish);
       setMessage("Dish updated successfully!");
       setTimeout(() => navigate("/adminpanel"), 1500); // Redirect to admin panel
     } catch (error) {
