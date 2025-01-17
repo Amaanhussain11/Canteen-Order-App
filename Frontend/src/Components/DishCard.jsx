@@ -23,8 +23,10 @@ function DishCard({ category }) {
       `https://canteen-order-app-4.onrender.com/Dishes/category/${category}`
     )
       .then((res) => res.json())
-      .then((data) => setsearchresult(data))
-      .then(setloading(false))
+      .then((data) => {
+        setsearchresult(data);
+        setloading(false);
+      })
       .catch((err) => {
         console.log(err);
         setloading(false);
