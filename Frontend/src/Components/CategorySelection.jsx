@@ -11,7 +11,7 @@ function Dropdown() {
     setIsSidebarOpen(false); // Close the sidebar after selection
   };
 
-  const categories = ["All","Veg", "Non-Veg", "Dairy"];
+  const categories = ["All", "Veg", "Non-Veg", "Dairy"];
 
   return (
     <div className=" min-h-screen relative flex flex-col items-center p-6 bg-[#FFF4E6] rounded-lg shadow-lg space-y-6 pb-[100px]">
@@ -50,11 +50,12 @@ function Dropdown() {
                 <button
                   className="text-[#3E2327] rounded-xl bg-[#FAD7A0] font-medium text-left w-full border flex justify-center items-center h-[40px]"
                   onClick={(e) => {
-                    
                     handleCategorySelect(category);
                     e.stopPropagation();
                     {
-                      category==="All"?setSelectedCategory(""):setSelectedCategory(category)
+                      category === "All"
+                        ? setSelectedCategory("")
+                        : setSelectedCategory(category);
                     }
                   }}
                 >
@@ -64,6 +65,7 @@ function Dropdown() {
             ))}
           </ul>
         </div>
+
         {/* Close Sidebar */}
         <button
           className="absolute inset-0 w-full h-full -z-10"

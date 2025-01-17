@@ -7,6 +7,7 @@ import { RiFileList3Fill } from "react-icons/ri";
 import { GlobalContextdish } from "../Context/Contextvardish";
 import { GlobalContextname } from "../Context/Contextvarname";
 import { GlobalContextprice } from "../Context/Contextvarprice";
+import { RiAdminLine } from "react-icons/ri";
 import Swal from "sweetalert2";
 
 const SearchBar = () => {
@@ -63,8 +64,8 @@ const SearchBar = () => {
     <div className="flex flex-col items-center p-6 bg-[#DB8F4D] text-[#3E2327]">
       {/* Top Section: List and Search Icon */}
       <div className="flex items-center w-full justify-between">
-        <Link to="/list" className="text-[#3E2327] flex justify-center items-center">
-          <RiFileList3Fill fontSize={28} className="text-[#3E2327]" />
+        <Link to="/Adlogin" className="text-[#3E2327] flex justify-center items-center">
+          <RiAdminLine fontSize={28} className="text-[#3E2327]" />
         </Link>
         {showSearchBar ? (
           <IoClose

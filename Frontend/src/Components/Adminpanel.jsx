@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { GoHomeFill } from "react-icons/go";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import UpdateDish from "./Updatedish";
 
@@ -23,7 +24,9 @@ const AdminPanel = () => {
   // Fetch dishes from the API
   const fetchDishes = async () => {
     try {
-      const response = await axios.get("https://canteen-order-app-4.onrender.com/Dishes/category");
+      const response = await axios.get(
+        "https://canteen-order-app-4.onrender.com/Dishes/category"
+      );
       setDishes(response.data);
     } catch (error) {
       console.error("Error fetching dishes:", error);
@@ -34,7 +37,9 @@ const AdminPanel = () => {
   // Delete a dish by ID
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://canteen-order-app-4.onrender.com/Dishes/${id}`);
+      await axios.delete(
+        `https://canteen-order-app-4.onrender.com/Dishes/${id}`
+      );
       setMessage("Dish deleted successfully!");
       setDishes(dishes.filter((dish) => dish._id !== id)); // Remove deleted dish from the list
     } catch (error) {
@@ -54,7 +59,14 @@ const AdminPanel = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold mb-6">Admin Panel</h1>
+      <div className="flex justify-between items-start ">
+        <div className=" text-3xl font-bold mb-6">Admin Panel</div>
+        <div className="flex justify-center items-center ">
+          <Link to="/" className="">
+            <GoHomeFill fontSize={35} />
+          </Link>
+        </div>
+      </div>
 
       <button
         onClick={() => navigate("/adminpanel/addnewdish")}

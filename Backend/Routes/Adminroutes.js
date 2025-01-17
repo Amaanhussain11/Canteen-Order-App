@@ -9,30 +9,13 @@ const jwtsecret = process.env.JWT_SECRET;
 
 const router = express.Router();
 
-// Admin registration (http://loclahost:5555/Admin/register)
-router.post("/register", async (req, res) => {
-  const { adminEmail, password } = req.body;
-
-  try {
-    const existingAdmin = await Admin.findOne({ adminEmail });
-    if (existingAdmin) {
-      return res.status(400).json({ message: "Admin already exists" });
-    }
-
-    const admin = await Admin.create({ adminEmail, password });
-    res.status(201).json({ message: "Admin registered successfully" });
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
-  }
-});
-
 // Admin login (http://localhost:5555/Admin/login)
 router.post("/login", async (req, res) => {
   const { adminEmail, password } = req.body;
 
   try {
     const admin = await Admin.findOne({ adminEmail });
-    console.log(adminEmail)
+    console.log(adminEmail);
 
     if (!admin || !(await admin.matchPassword(password))) {
       return res.status(401).json({ message: "Invalid email or password" });
@@ -52,6 +35,22 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// Admin registration (http://loclahost:5555/Admin/register)
+router.post("/register", async (req, res) => {
+  const { adminEmail, password } = req.body;
+
+  try {
+    const existingAdmin = await Admin.findOne({ adminEmail });
+    if (existingAdmin) {
+      return res.status(400).json({ message: "Admin already exists" });
+    }
+
+    const admin = await Admin.create({ adminEmail, password });
+    res.status(201).json({ message: "Admin registered successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
 
 // Middleware to verify tokenl
 const verifyToken = (req, res, next) => {
