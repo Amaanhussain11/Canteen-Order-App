@@ -9,6 +9,7 @@ import { GlobalContextname } from "../Context/Contextvarname";
 import { GlobalContextprice } from "../Context/Contextvarprice";
 import { RiAdminLine } from "react-icons/ri";
 import Swal from "sweetalert2";
+import Spinner from "./Spinner";
 
 const SearchBar = () => {
   const [dishname, setdishname] = useState("");
@@ -17,6 +18,7 @@ const SearchBar = () => {
   const [dishlistarr, setdishlistarr] = useContext(GlobalContextdish);
   const [namelist, setnamelist] = useContext(GlobalContextname);
   const [pricelist, setpricelist] = useContext(GlobalContextprice);
+  const [loading, setloading] = useState(false);
 
   const handleadddish = async (dishname, dishprice) => {
     const { value: name } = await Swal.fire({
@@ -27,7 +29,7 @@ const SearchBar = () => {
         if (!value) {
           return "You need to write something!";
         }
-      }
+      },
     });
     setpricelist([...pricelist, dishprice]);
     setnamelist([...namelist, name]);
@@ -43,12 +45,15 @@ const SearchBar = () => {
       return;
     }
     try {
+      setloading(true);
       const res = await axios.get(
         `https://canteen-order-app-4.onrender.com/Dishes/search?&name=${dishname}`
       );
       setsearchresult(res.data);
+      setloading(false);
     } catch (err) {
       console.error(err);
+      setloading(false);
     }
   };
 
@@ -64,7 +69,10 @@ const SearchBar = () => {
     <div className="flex flex-col items-center p-6 bg-[#DB8F4D] text-[#3E2327]">
       {/* Top Section: List and Search Icon */}
       <div className="flex items-center w-full justify-between">
-        <Link to="/Adlogin" className="text-[#3E2327] flex justify-center items-center">
+        <Link
+          to="/Adlogin"
+          className="text-[#3E2327] flex justify-center items-center"
+        >
           <RiAdminLine fontSize={28} className="text-[#3E2327]" />
         </Link>
         {showSearchBar ? (
@@ -102,44 +110,54 @@ const SearchBar = () => {
       )}
 
       {/* Search Results */}
-      {showSearchBar && searchresult.length > 0 && (
-        <div className="w-full mt-4 space-y-4">
-          {searchresult.map((res, index) => (
-            <div
-              key={index}
-              className="w-full max-w-[375px] mx-auto bg-[#FAD7A0] rounded-[20px] p-4 flex flex-col shadow-md"
-            >
-              {/* Image Section */}
-              <div className="w-full h-[150px] flex items-center justify-center overflow-hidden bg-white rounded-[20px]">
-                <img
-                  src={res.imageLink || "https://media.istockphoto.com/id/1409919858/photo/delicious-indian-street-food-egg-rolls-is-ready-to-eat.jpg?s=612x612&w=0&k=20&c=7b-uTwR8qmESV_nP3Rsh4qqKCay4vsG_B7j0UhaMFPY="} // Replace with the actual image or placeholder
-                  alt={res.name}
-                  className="w-full h-full object-cover rounded-[20px]"
-                />
-              </div>
-
-              {/* Name, Price, and Add Button Section */}
-              <div className="flex justify-between items-center mt-3 px-4">
-                <div>
-                  <h3 className="text-base font-bold text-gray-800">
-                    {res.name}
-                  </h3>
-                  <p className="text-sm text-gray-600 mt-1">₹{res.price}</p>
-                </div>
-                <div>
-                  <button
-                    onClick={() => {
-                      handleadddish(res.name, res.price);
-                    }}
-                    className=" flex items-center justify-center  hover:opacity-80"
-                  >
-                    <FaPlusSquare fontSize={28} />
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
+      {loading ? (
+        <div className="flex justify-center items-center min-h-[200px]">
+          <Spinner size="w-16 h-16" color="border-red-700" />
         </div>
+      ) : (
+        showSearchBar &&
+        searchresult.length > 0 && (
+          <div className="w-full mt-4 space-y-4">
+            {searchresult.map((res, index) => (
+              <div
+                key={index}
+                className="w-full max-w-[375px] mx-auto bg-[#FAD7A0] rounded-[20px] p-4 flex flex-col shadow-md"
+              >
+                {/* Image Section */}
+                <div className="w-full h-[150px] flex items-center justify-center overflow-hidden bg-white rounded-[20px]">
+                  <img
+                    src={
+                      res.imageLink ||
+                      "https://media.istockphoto.com/id/1409919858/photo/delicious-indian-street-food-egg-rolls-is-ready-to-eat.jpg?s=612x612&w=0&k=20&c=7b-uTwR8qmESV_nP3Rsh4qqKCay4vsG_B7j0UhaMFPY="
+                    } // Replace with the actual image or placeholder
+                    alt={res.name}
+                    className="w-full h-full object-cover rounded-[20px]"
+                  />
+                </div>
+
+                {/* Name, Price, and Add Button Section */}
+                <div className="flex justify-between items-center mt-3 px-4">
+                  <div>
+                    <h3 className="text-base font-bold text-gray-800">
+                      {res.name}
+                    </h3>
+                    <p className="text-sm text-gray-600 mt-1">₹{res.price}</p>
+                  </div>
+                  <div>
+                    <button
+                      onClick={() => {
+                        handleadddish(res.name, res.price);
+                      }}
+                      className=" flex items-center justify-center  hover:opacity-80"
+                    >
+                      <FaPlusSquare fontSize={28} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )
       )}
     </div>
   );

@@ -31,13 +31,17 @@ function DishCard({ category }) {
       });
   }, [category]);
 
+  // checking spinner
+  // useEffect(() => {
+  //   console.log("Loading:", loading);
+  // }, [loading]);
+
   // A function to handle adding a dish and name of the recipient
   const handleadddish = async (dishname, dishprice) => {
     // const name = prompt("Enter your name")
     const { value: name } = await Swal.fire({
       title: "Enter recipient's Name",
       input: "text",
-      // inputLabel: "Your IP address",
       inputValidator: (value) => {
         if (!value) {
           return "You need to write something!";
@@ -54,7 +58,7 @@ function DishCard({ category }) {
     <div className="w-full mt-4 space-y-4 bg-[#FFF4E6]">
       {loading ? (
         <div className="flex justify-center items-center min-h-[200px]">
-          <Spinner size="w-16 h-16" color="border-black-500" />
+          <Spinner size="w-16 h-16" color="border-red-700" />
         </div>
       ) : (
         searchresult.map((res, index) => (
