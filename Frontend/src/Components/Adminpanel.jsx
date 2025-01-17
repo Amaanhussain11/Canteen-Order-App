@@ -12,6 +12,7 @@ const AdminPanel = () => {
   // checking if it's admin or not
 
   useEffect(() => {
+    // e.preventDefault();
     const authToken = localStorage.getItem("authToken");
 
     // Check if the token exists

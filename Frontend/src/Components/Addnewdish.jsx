@@ -14,6 +14,7 @@ const AdminPanel = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    
     const authToken = localStorage.getItem("authToken");
 
     // Check if the token exists
@@ -102,6 +103,8 @@ const AdminPanel = () => {
             >
               <option value="Veg">Veg</option>
               <option value="Non-Veg">Non-Veg</option>
+              <option value="Starter">Starter</option>
+              <option value="Sweets">Sweets</option>
             </select>
           </div>
           <div>

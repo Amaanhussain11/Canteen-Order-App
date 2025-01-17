@@ -11,7 +11,7 @@ function Dropdown() {
     setIsSidebarOpen(false); // Close the sidebar after selection
   };
 
-  const categories = ["All", "Veg", "Non-Veg", "Dairy"];
+  const categories = ["All","Starter" ,"Veg", "Non-Veg","Sweets"];
 
   return (
     <div className=" min-h-screen relative flex flex-col items-center p-6 bg-[#FFF4E6] rounded-lg shadow-lg space-y-6 pb-[100px]">
