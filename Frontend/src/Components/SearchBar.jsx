@@ -1,6 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { IoSearch, IoClose } from "react-icons/io5";
 import axios from "axios";
+import { auth, provider } from "./GoogleSignin/config.js"; // Import your Firebase config
+import { signInWithPopup, signOut } from "firebase/auth";
 import { Link } from "react-router-dom";
 import { FaPlusSquare } from "react-icons/fa";
 import { RiFileList3Fill } from "react-icons/ri";
@@ -8,6 +10,8 @@ import { GlobalContextdish } from "../Context/Contextvardish";
 import { GlobalContextname } from "../Context/Contextvarname";
 import { GlobalContextprice } from "../Context/Contextvarprice";
 import { RiAdminLine } from "react-icons/ri";
+import { FaRegUserCircle } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 import Swal from "sweetalert2";
 import Spinner from "./Spinner";
 
@@ -19,6 +23,53 @@ const SearchBar = () => {
   const [namelist, setnamelist] = useContext(GlobalContextname);
   const [pricelist, setpricelist] = useContext(GlobalContextprice);
   const [loading, setloading] = useState(false);
+  const [user, setUser] = useState(null); // Track logged-in user
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  // checking if user is present or not
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
+  // Handle Google Sign-In
+  const handleSignIn = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const userData = {
+        name: result.user.displayName,
+        email: result.user.email,
+        photoURL: result.user.photoURL,
+      };
+      setUser(userData);
+      localStorage.setItem("user", JSON.stringify(userData));
+    } catch (error) {
+      console.error("Error during sign-in:", error);
+    }
+  };
+
+  // Handle Sign-Out
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      setUser(null);
+      localStorage.removeItem("user");
+    } catch (error) {
+      console.error("Error during sign-out:", error);
+    }
+  };
+
+  // sign out drop down
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
+
+  const handleDropdownSignOut = () => {
+    setShowDropdown(false);
+    handleSignOut();
+  };
 
   const handleadddish = async (dishname, dishprice) => {
     const { value: name } = await Swal.fire({
@@ -69,12 +120,41 @@ const SearchBar = () => {
     <div className="flex flex-col items-center p-6 bg-[#DB8F4D] text-[#3E2327]">
       {/* Top Section: List and Search Icon */}
       <div className="flex items-center w-full justify-between">
-        <Link
-          to="/Adlogin"
-          className="text-[#3E2327] flex justify-center items-center"
-        >
-          <RiAdminLine fontSize={28} className="text-[#3E2327]" />
-        </Link>
+        {user ? (
+          <div className="">
+            <img
+              src={user.photoURL}
+              alt={user.name}
+              className="w-10 h-10 rounded-full cursor-pointer"
+              onClick={toggleDropdown}
+              title="Sign Out"
+            />
+
+            {/* Dropdown Menu */}
+            <div className="">
+              {showDropdown && (
+                <div className="absolute left-0 mt-2 w-fit bg-[#DB8F4D] border-white border-2  rounded-lg shadow-lg z-50">
+                  <button
+                    onClick={handleDropdownSignOut}
+                    className="w-full flex text-left px-4 py-2  text-[#3E2327] rounded-t-lg"
+                  >
+                    Sign Out
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        ) : (
+          <div className="flex  justify-normal items-center">
+            <FaRegUserCircle
+              fontSize={28}
+              className="cursor-pointer text-[#3E2327]"
+              onClick={handleSignIn}
+              title="Sign In with Google"
+            />
+            <span className="px-1 flex justify-center items-center">Continue with <FcGoogle className="px-1" fontSize={30}/></span>
+          </div>
+        )}
         {showSearchBar ? (
           <IoClose
             onClick={toggleSearchBar}

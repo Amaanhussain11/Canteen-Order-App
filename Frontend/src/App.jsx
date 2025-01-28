@@ -8,6 +8,8 @@ import AdminLogin from "./Components/AdminLogin";
 import Addnewdish from "./Components/Addnewdish";
 import UpdateDish from "./Components/Updatedish";
 import Stickyfooter from "./Components/Stickyfooter";
+import Payment from "./Components/Payment";
+import Signin from "./Components/GoogleSignin/Signin";
 
 function App() {
   return (
@@ -16,9 +18,11 @@ function App() {
         path="/"
         element={
           <>
+            {/* <Signin /> */}
             <SearchBar />
+
             <CategorySelection />
-            <Stickyfooter/>
+            <Stickyfooter />
           </>
         }
       />
@@ -27,7 +31,7 @@ function App() {
       <Route path="/adminpanel" element={<Adminpanel />} />
       <Route path="/adminpanel/addnewdish" element={<Addnewdish />} />
       <Route path="/update-dish/:id" element={<UpdateDish />} />
-
+      <Route path="/payment" element={<Payment />} />
     </Routes>
   );
 }

@@ -8,9 +8,9 @@ import { Link } from "react-router-dom";
 import Stickyfooter from "./Stickyfooter";
 
 const Dishlist = () => {
-  const [namelist] = useContext(GlobalContextname);
-  const [dishlistarr] = useContext(GlobalContextdish);
-  const [pricelist] = useContext(GlobalContextprice);
+  const [namelist, setNamelist] = useContext(GlobalContextname);
+  const [dishlistarr, setDishlistarr] = useContext(GlobalContextdish);
+  const [pricelist, setPricelist] = useContext(GlobalContextprice);
 
   let nestedOrders = {};
   namelist.forEach((name, index) => {
@@ -28,13 +28,34 @@ const Dishlist = () => {
     if (existingDish) {
       existingDish.quantity += 1;
     } else {
-      nestedOrders[name].push({ dishname: dish, price: price, quantity: 1 });
+      nestedOrders[name].push({
+        dishname: dish,
+        price: price,
+        quantity: 1,
+        index,
+      });
     }
   });
 
   const Total = pricelist.reduce((sum, num) => sum + num, 0);
 
+  // Remove Dish Function
+  const removeDish = (index) => {
+    const newDishlist = [...dishlistarr];
+    const newNamelist = [...namelist];
+    const newPricelist = [...pricelist];
+
+    newDishlist.splice(index, 1);
+    newNamelist.splice(index, 1);
+    newPricelist.splice(index, 1);
+
+    setDishlistarr(newDishlist);
+    setNamelist(newNamelist);
+    setPricelist(newPricelist);
+  };
+
   return (
+    
     <div className="min-h-screen bg-[#FFF4E6] flex flex-col pb-[100px]">
       {/* Sticky Header */}
       <header className="sticky top-0 w-full bg-[#DB8F4D] flex items-center px-4 shadow-lg h-[80px] justify-end">
@@ -59,15 +80,22 @@ const Dishlist = () => {
             <h3 className="font-bold text-lg">{name}</h3>
 
             {/* Orders */}
-            {orders.map((order, index) => (
+            {orders.map((order) => (
               <div
-                key={index}
+                key={order.index}
                 className="flex justify-between items-center text-sm"
               >
                 <span>
                   {order.dishname} x{order.quantity}
                 </span>
                 <span>₹{order.price * order.quantity}</span>
+                {/* Minus Button */}
+                <button
+                  onClick={() => removeDish(order.index)}
+                  className="ml-4 bg-red-500 text-white px-2 py-1 rounded-lg text-xs hover:bg-red-600"
+                >
+                  Remove
+                </button>
               </div>
             ))}
 
@@ -85,6 +113,7 @@ const Dishlist = () => {
           </div>
         ))}
       </div>
+
       <Stickyfooter />
     </div>
   );

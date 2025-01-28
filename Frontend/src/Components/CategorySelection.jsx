@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import DishCard from "./DishCard";
-import { BiMenuAltLeft } from "react-icons/bi";
+import { BiMenuAltLeft} from "react-icons/bi";
+import { RiAdminLine } from "react-icons/ri";
+import { Link } from "react-router-dom";
 
 function Dropdown() {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -11,7 +13,7 @@ function Dropdown() {
     setIsSidebarOpen(false); // Close the sidebar after selection
   };
 
-  const categories = ["All","Starter" ,"Veg", "Non-Veg","Sweets"];
+  const categories = ["All", "Starter", "Veg", "Non-Veg", "Sweets"];
 
   return (
     <div className=" min-h-screen relative flex flex-col items-center p-6 bg-[#FFF4E6] rounded-lg shadow-lg space-y-6 pb-[100px]">
@@ -64,11 +66,18 @@ function Dropdown() {
               </li>
             ))}
           </ul>
+
+          <Link
+            to="/Adlogin"
+            className="text-[#3E2327] flex justify-center items-center"
+          >
+            <RiAdminLine fontSize={28} className="text-[#3E2327]" />
+          </Link>
         </div>
 
         {/* Close Sidebar */}
         <button
-          className="absolute inset-0 w-full h-full -z-10"
+          className="absolute bottom-0 left-0 inset-0 w-full h-full -z-10"
           onClick={() => setIsSidebarOpen(false)}
         ></button>
       </div>

@@ -6,10 +6,17 @@ import { PORT, dburl } from "./config.js";
 import Dishroutes from "./Routes/Dishroutes.js";
 import Adminroutes from "./Routes/Adminroutes.js";
 import Roomroutes from "./Routes/Roomroutes.js";
+import Paymentroutes from "./Routes/Paymentroutes.js"
 import cors from "cors";
 
 const app = express();
 const httpServer = createServer(app); // Create HTTP server
+
+const allowedOrigins = [
+  "http://localhost:5173", // Frontend development URL
+  "https://your-production-domain.com", // Production URL
+];
+
 const io = new Server(httpServer, {
   cors: {
     origin: allowedOrigins, // Update with your client origin if needed
@@ -41,6 +48,7 @@ app.get("/", (req, res) => {
 app.use("/Dishes", Dishroutes);
 app.use("/Admin", Adminroutes);
 app.use("/Room", Roomroutes);
+app.use("/payment",Paymentroutes)
 
 // Socket.io setup
 io.on("connection", (socket) => {
