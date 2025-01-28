@@ -14,7 +14,7 @@ const httpServer = createServer(app); // Create HTTP server
 
 const allowedOrigins = [
   "http://localhost:5173", // Frontend development URL
-  "https://your-production-domain.com", // Production URL
+  "https://canteen-order-app.vercel.app/", // Production URL
 ];
 
 const io = new Server(httpServer, {
